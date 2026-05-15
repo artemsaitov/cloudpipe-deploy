@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: CloudPipe static website infrastructure with S3 and CloudFront
+
+Parameters: 
+  ProjectName:
+    Type: String
+    Default: cloudpipe-deploy
+    Description: Project name used for naming resources
+
+Resources:
+  WebsiteBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "${ProjectName}-${AWS::AccountId}-${AWS::Region}"
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true 
+
+
+Outputs:
+  WebsiteBucketName:
+    Description: Name of the S3 bucket for website files
+    Value: !Ref WebsiteBucket
+
